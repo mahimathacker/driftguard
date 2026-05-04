@@ -1,0 +1,72 @@
+{
+  "name": "driftguard",
+  "version": "0.1.0",
+  "description": "Cross-layer drift detection for Web3 contracts, SDKs, docs, and demos. CLI + GitHub Action.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "npm run build:cli && npm run build:action",
+    "build:cli": "tsup",
+    "build:action": "ncc build src/action/index.ts -o dist-action --minify --source-map",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist dist-action coverage .driftguard",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "drift",
+    "docs",
+    "abi",
+    "solidity",
+    "typescript",
+    "sdk",
+    "web3",
+    "ci",
+    "github-action",
+    "developer-experience"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
+    "@solidity-parser/parser": "^0.20.2",
+    "clipanion": "^4.0.0-rc.4",
+    "cosmiconfig": "^9.0.1",
+    "ethers": "^6.16.0",
+    "execa": "^9.6.1",
+    "globby": "^16.2.0",
+    "jiti": "^2.6.1",
+    "package-manager-detector": "^1.6.0",
+    "picocolors": "^1.1.1",
+    "remark": "^15.0.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx": "^3.1.1",
+    "remark-parse": "^11.0.0",
+    "solc": "^0.8.35",
+    "ts-morph": "^28.0.0",
+    "typescript": "^6.0.3",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@vercel/ncc": "^0.38.4",
+    "tsup": "^8.5.1",
+    "vitest": "^4.1.5"
+  },
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "driftguard": "./dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
