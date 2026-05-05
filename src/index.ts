@@ -31,3 +31,7 @@ export type {
   SdkSnapshot,
   Snapshot,
 } from './snapshot/index.js';
+
+export { analyzeContracts } from './analyzers/solidity/index.js';
+export { diffContracts } from './analyzers/solidity/diff.js';
+export type { ContractChange, FragmentChange } from './analyzers/solidity/diff.js';
