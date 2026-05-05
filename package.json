@@ -5,13 +5,14 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "npm run build:cli && npm run build:action",
-    "build:cli": "tsup",
+    "build:cli": "tsup && tsc -p tsconfig.build.json",
     "build:action": "ncc build src/action/index.ts -o dist-action --minify --source-map",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test:watch": "vitest",
     "clean": "rm -rf dist dist-action coverage .driftguard",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:dts": "tsc -p tsconfig.build.json"
   },
   "keywords": [
     "drift",

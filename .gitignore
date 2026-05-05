@@ -3,7 +3,12 @@ node_modules/
 
 # Build output
 dist/
+dist-action/
 *.tsbuildinfo
+
+# DriftGuard runtime artifacts (snapshots are committed; reports are not)
+.driftguard/report.*
+.driftguard/*.tmp
 
 # Environment / secrets
 .env
