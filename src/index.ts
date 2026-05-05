@@ -39,3 +39,7 @@ export type { ContractChange, FragmentChange } from './analyzers/solidity/diff.j
 export { analyzeSdk } from './analyzers/typescript/index.js';
 export { diffSdk } from './analyzers/typescript/diff.js';
 export type { SdkChange } from './analyzers/typescript/diff.js';
+
+export { analyzeDocs } from './analyzers/docs/index.js';
+export { diffDocs } from './analyzers/docs/diff.js';
+export type { DocChange } from './analyzers/docs/diff.js';
