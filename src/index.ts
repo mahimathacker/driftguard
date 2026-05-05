@@ -35,3 +35,7 @@ export type {
 export { analyzeContracts } from './analyzers/solidity/index.js';
 export { diffContracts } from './analyzers/solidity/diff.js';
 export type { ContractChange, FragmentChange } from './analyzers/solidity/diff.js';
+
+export { analyzeSdk } from './analyzers/typescript/index.js';
+export { diffSdk } from './analyzers/typescript/diff.js';
+export type { SdkChange } from './analyzers/typescript/diff.js';
