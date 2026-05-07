@@ -43,3 +43,12 @@ export type { SdkChange } from './analyzers/typescript/diff.js';
 export { analyzeDocs } from './analyzers/docs/index.js';
 export { diffDocs } from './analyzers/docs/diff.js';
 export type { DocChange } from './analyzers/docs/diff.js';
+
+export {
+  RULES,
+  buildReport,
+  renderConsole,
+  renderMarkdown,
+  renderSarif,
+} from './reporter/index.js';
+export type { Finding, Layer, Report, RuleId } from './reporter/index.js';

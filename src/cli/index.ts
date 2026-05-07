@@ -1,5 +1,11 @@
 #!/usr/bin/env node
+import pc from 'picocolors';
 import { Builtins, Cli, Command, Option } from 'clipanion';
+import { ConfigNotFoundError, ConfigParseError, loadConfig } from '../config/load.js';
+import { SnapshotNotFoundError, SnapshotVersionError } from '../snapshot/io.js';
+import { runCheck } from './commands/check.js';
+import { runInit } from './commands/init.js';
+import { runSnapshot } from './commands/snapshot.js';
 
 const VERSION = '0.1.0';
 
@@ -14,8 +20,15 @@ class InitCommand extends Command {
   });
 
   async execute(): Promise<number> {
-    this.context.stdout.write('TODO: scaffold driftguard.config.ts\n');
-    return 0;
+    const result = await runInit(process.cwd(), this.force);
+    if (result.created) {
+      this.context.stdout.write(pc.green(`✓ wrote ${result.path}\n`));
+      return 0;
+    }
+    this.context.stderr.write(
+      pc.red(`config already exists at ${result.path} — pass --force to overwrite\n`),
+    );
+    return 1;
   }
 }
 
@@ -25,11 +38,21 @@ class SnapshotCommand extends Command {
     description: 'Capture a baseline snapshot of contracts, SDK exports, and docs.',
   });
 
-  config = Option.String('-c,--config', { description: 'Path to config file.' });
+  configPath = Option.String('-c,--config', { description: 'Path to config file.' });
 
   async execute(): Promise<number> {
-    this.context.stdout.write('TODO: write snapshot to .driftguard/snapshot.json\n');
-    return 0;
+    return withConfig(this.context, this.configPath, async (config) => {
+      const result = await runSnapshot(process.cwd(), config);
+      this.context.stdout.write(
+        pc.green(
+          `✓ snapshot written to ${result.path}\n` +
+            `  ${result.contractCount} contract(s), ` +
+            `${result.sdkExportCount} SDK export(s), ` +
+            `${result.docFileCount} doc file(s)\n`,
+        ),
+      );
+      return 0;
+    });
   }
 }
 
@@ -39,12 +62,22 @@ class CheckCommand extends Command {
     description: 'Detect drift between the current state and the baseline snapshot.',
   });
 
-  config = Option.String('-c,--config', { description: 'Path to config file.' });
-  json = Option.Boolean('--json', false, { description: 'Emit JSON only.' });
+  configPath = Option.String('-c,--config', { description: 'Path to config file.' });
+  json = Option.Boolean('--json', false, { description: 'Emit JSON report to stdout.' });
 
   async execute(): Promise<number> {
-    this.context.stdout.write('TODO: run analyzers and report drift\n');
-    return 0;
+    return withConfig(this.context, this.configPath, async (config) => {
+      const result = await runCheck(process.cwd(), config);
+      if (this.json) {
+        this.context.stdout.write(JSON.stringify(result.report, null, 2) + '\n');
+      } else {
+        this.context.stdout.write(result.console + '\n');
+        for (const w of result.written) {
+          this.context.stdout.write(pc.dim(`  ${w.format} → ${w.path}\n`));
+        }
+      }
+      return result.report.exitCode;
+    });
   }
 }
 
@@ -59,8 +92,39 @@ class ReportCommand extends Command {
   });
 
   async execute(): Promise<number> {
-    this.context.stdout.write(`TODO: render ${this.format} report\n`);
-    return 0;
+    this.context.stderr.write(
+      pc.yellow('driftguard report is not implemented yet — use `driftguard check` for now.\n'),
+    );
+    return 1;
+  }
+}
+
+async function withConfig(
+  context: { stderr: NodeJS.WritableStream },
+  configPath: string | undefined,
+  fn: (config: import('../config/schema.js').DriftGuardConfig) => Promise<number>,
+): Promise<number> {
+  try {
+    const { config } = await loadConfig(process.cwd(), configPath);
+    return await fn(config);
+  } catch (err) {
+    if (err instanceof ConfigNotFoundError) {
+      context.stderr.write(pc.red(`error: ${err.message}\n`));
+      return 2;
+    }
+    if (err instanceof ConfigParseError) {
+      context.stderr.write(pc.red(`error: ${err.message}\n`));
+      return 2;
+    }
+    if (err instanceof SnapshotNotFoundError) {
+      context.stderr.write(pc.red(`error: ${err.message}\n`));
+      return 2;
+    }
+    if (err instanceof SnapshotVersionError) {
+      context.stderr.write(pc.red(`error: ${err.message}\n`));
+      return 2;
+    }
+    throw err;
   }
 }
 
