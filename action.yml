@@ -1,0 +1,54 @@
+name: 'DriftGuard'
+description: 'Detect drift between contracts, SDK exports, and docs before merge.'
+author: 'driftguard'
+
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  config:
+    description: 'Path to the driftguard config file. Auto-detected if omitted.'
+    required: false
+  mode:
+    description: '"check" (default) compares against the committed snapshot. "snapshot" rewrites the baseline.'
+    required: false
+    default: 'check'
+  version:
+    description: 'DriftGuard npm version to install (e.g. "0.1.0", "latest").'
+    required: false
+    default: 'latest'
+  node-version:
+    description: 'Node version to use.'
+    required: false
+    default: '22'
+
+outputs:
+  error-count:
+    description: 'Number of error-level findings.'
+    value: ${{ steps.run.outputs.error-count }}
+  warning-count:
+    description: 'Number of warning-level findings.'
+    value: ${{ steps.run.outputs.warning-count }}
+  sarif-path:
+    description: 'Path to the SARIF report file (when emitted).'
+    value: ${{ steps.run.outputs.sarif-path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Install DriftGuard
+      shell: bash
+      run: npm install -g driftguard@${{ inputs.version }}
+
+    - name: Run DriftGuard
+      id: run
+      shell: bash
+      run: |
+        ARGS=""
+        if [ -n "${{ inputs.config }}" ]; then ARGS="--config ${{ inputs.config }}"; fi
+        driftguard ${{ inputs.mode }} $ARGS

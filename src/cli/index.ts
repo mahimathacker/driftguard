@@ -6,6 +6,12 @@ import { SnapshotNotFoundError, SnapshotVersionError } from '../snapshot/io.js';
 import { runCheck } from './commands/check.js';
 import { runInit } from './commands/init.js';
 import { runSnapshot } from './commands/snapshot.js';
+import {
+  appendStepSummary,
+  emitAnnotations,
+  isGitHubActions,
+  setOutput,
+} from './github-output.js';
 
 const VERSION = '0.1.0';
 
@@ -68,6 +74,7 @@ class CheckCommand extends Command {
   async execute(): Promise<number> {
     return withConfig(this.context, this.configPath, async (config) => {
       const result = await runCheck(process.cwd(), config);
+
       if (this.json) {
         this.context.stdout.write(JSON.stringify(result.report, null, 2) + '\n');
       } else {
@@ -76,6 +83,17 @@ class CheckCommand extends Command {
           this.context.stdout.write(pc.dim(`  ${w.format} → ${w.path}\n`));
         }
       }
+
+      if (isGitHubActions()) {
+        emitAnnotations(result.report, (s) => this.context.stdout.write(s));
+        const md = result.written.find((w) => w.format === 'markdown');
+        if (md) await appendStepSummary(md.path);
+        await setOutput('error-count', result.report.errorCount);
+        await setOutput('warning-count', result.report.warningCount);
+        const sarif = result.written.find((w) => w.format === 'sarif');
+        if (sarif) await setOutput('sarif-path', sarif.path);
+      }
+
       return result.report.exitCode;
     });
   }

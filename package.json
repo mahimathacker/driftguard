@@ -4,9 +4,8 @@
   "description": "Cross-layer drift detection for Web3 contracts, SDKs, docs, and demos. CLI + GitHub Action.",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "npm run build:cli && npm run build:action",
+    "build": "npm run build:cli",
     "build:cli": "tsup && tsc -p tsconfig.build.json",
-    "build:action": "ncc build src/action/index.ts -o dist-action --minify --source-map",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test:watch": "vitest",
@@ -59,7 +58,6 @@
   "devDependencies": {
     "@types/node": "^25.6.0",
     "@types/picomatch": "^4.0.3",
-    "@vercel/ncc": "^0.38.4",
     "tsup": "^8.5.1",
     "vitest": "^4.1.5"
   },
