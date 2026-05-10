@@ -109,7 +109,16 @@ function serializeEnum(en: EnumDeclaration): string {
 }
 
 function serializeVariable(v: VariableDeclaration): string {
-  return v.getTypeNode()?.getText() ?? v.getType().getText(v, TYPE_FLAGS);
+  // Annotation wins — that's user intent.
+  const typeNode = v.getTypeNode();
+  if (typeNode) return typeNode.getText();
+  // No annotation: prefer the initializer's source text. For Zod-style schema
+  // values this is dramatically more readable than the inferred type, and for
+  // simple constants ('1.0.0', true, 42) it's identical to the inferred type.
+  const init = v.getInitializer();
+  if (init) return init.getText();
+  // Fallback: the inferred type.
+  return v.getType().getText(v, TYPE_FLAGS);
 }
 
 function serializeProperty(p: PropertyDeclaration | PropertySignature): string {
