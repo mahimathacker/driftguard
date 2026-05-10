@@ -109,13 +109,13 @@ function serializeEnum(en: EnumDeclaration): string {
 }
 
 function serializeVariable(v: VariableDeclaration): string {
-  return v.getType().getText(v, TYPE_FLAGS);
+  return v.getTypeNode()?.getText() ?? v.getType().getText(v, TYPE_FLAGS);
 }
 
 function serializeProperty(p: PropertyDeclaration | PropertySignature): string {
   const opt = p.hasQuestionToken() ? '?' : '';
   const readonly = p.isReadonly() ? 'readonly ' : '';
-  const type = p.getType().getText(p, TYPE_FLAGS);
+  const type = p.getTypeNode()?.getText() ?? p.getType().getText(p, TYPE_FLAGS);
   return `${readonly}${p.getName()}${opt}: ${type};`;
 }
 
@@ -124,7 +124,7 @@ function callSignature(
 ): string {
   const generics = typeParamsString(fn.getTypeParameters());
   const params = fn.getParameters().map(serializeParameter).join(', ');
-  const ret = fn.getReturnType().getText(fn, TYPE_FLAGS);
+  const ret = fn.getReturnTypeNode()?.getText() ?? fn.getReturnType().getText(fn, TYPE_FLAGS);
   return `${generics}(${params}): ${ret}`;
 }
 
@@ -136,7 +136,7 @@ function callSignatureNoReturn(fn: ConstructorDeclaration): string {
 function serializeParameter(p: ParameterDeclaration): string {
   const rest = p.isRestParameter() ? '...' : '';
   const opt = p.hasQuestionToken() || p.isOptional() ? '?' : '';
-  const type = p.getType().getText(p, TYPE_FLAGS);
+  const type = p.getTypeNode()?.getText() ?? p.getType().getText(p, TYPE_FLAGS);
   return `${rest}${p.getName()}${opt}: ${type}`;
 }
 
