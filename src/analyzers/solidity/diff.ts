@@ -18,6 +18,7 @@ export type ContractChange =
 export function diffContracts(
   baseline: Record<string, ContractSnapshot>,
   head: Record<string, ContractSnapshot>,
+  options?: { strict? : boolean},
 ): ContractChange[] {
   const changes: ContractChange[] = [];
 
