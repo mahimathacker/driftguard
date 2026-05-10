@@ -5,6 +5,7 @@ const LAYER_TITLES: Record<Layer, string> = {
   contracts: 'Contracts (Solidity)',
   sdk: 'SDK (TypeScript)',
   docs: 'Documentation',
+  demos: 'Demo repositories',
 };
 
 export function renderMarkdown(report: Report): string {
@@ -17,7 +18,7 @@ export function renderMarkdown(report: Report): string {
   const warns = report.warningCount;
   lines.push(`## DriftGuard found ${errs} error${plural(errs)} and ${warns} warning${plural(warns)}\n`);
 
-  for (const layer of ['contracts', 'sdk', 'docs'] as const) {
+  for (const layer of ['contracts', 'sdk', 'docs', 'demos'] as const) {
     const layerFindings = report.findings.filter((f) => f.layer === layer);
     if (layerFindings.length === 0) continue;
 

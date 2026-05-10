@@ -1,6 +1,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
+import { runDemos } from '../../analyzers/demos/run.js';
 import type { DriftGuardConfig } from '../../config/schema.js';
+import { findingsFromDemos } from '../../reporter/findings.js';
 import { buildReport } from '../../reporter/report.js';
 import { renderConsole } from '../../reporter/console.js';
 import { renderMarkdown } from '../../reporter/markdown.js';
@@ -25,6 +27,17 @@ export async function runCheck(
   const baseline = await readSnapshot(baselinePath);
   const head = await analyze(cwd, config);
   const report = buildReport(baseline, head, config);
+
+  if (config.demos.enabled) {
+    const demoResults = await runDemos(config.demos, cwd);
+    const demoFindings = findingsFromDemos(demoResults, config.severity);
+    for (const f of demoFindings) {
+      report.findings.push(f);
+      if (f.severity === 'error') report.errorCount++;
+      else report.warningCount++;
+    }
+    report.exitCode = report.errorCount > 0 ? 1 : 0;
+  }
 
   const written: { format: string; path: string }[] = [];
   for (const format of config.report.formats) {

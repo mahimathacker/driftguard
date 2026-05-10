@@ -1,11 +1,12 @@
 import type { ContractChange } from '../analyzers/solidity/diff.js';
 import type { DocChange } from '../analyzers/docs/diff.js';
 import type { SdkChange } from '../analyzers/typescript/diff.js';
+import type { DemoResult } from '../analyzers/demos/run.js';
 import type { Snapshot } from '../snapshot/schema.js';
 import { type RuleId, severityFor } from './rules.js';
 import type { DriftGuardConfig } from '../config/schema.js';
 
-export type Layer = 'contracts' | 'sdk' | 'docs';
+export type Layer = 'contracts' | 'sdk' | 'docs' | 'demos';
 
 export type Finding = {
   ruleId: RuleId;
@@ -121,6 +122,21 @@ export function findingsFromSdk(
         });
         break;
     }
+  }
+  return out;
+}
+
+export function findingsFromDemos(
+  results: DemoResult[],
+  config: DriftGuardConfig['severity'],
+): Finding[] {
+  const out: Finding[] = [];
+  for (const result of results) {
+    if (result.passed) continue;
+    push(out, 'demo-fails', 'demos', config, {
+      message: `Demo "${result.name}" failed: ${result.command} (exit ${result.exitCode})`,
+      after: result.output,
+    });
   }
   return out;
 }

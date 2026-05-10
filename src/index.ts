@@ -44,6 +44,9 @@ export { analyzeDocs } from './analyzers/docs/index.js';
 export { diffDocs } from './analyzers/docs/diff.js';
 export type { DocChange } from './analyzers/docs/diff.js';
 
+export { runDemos } from './analyzers/demos/run.js';
+export type { DemoResult } from './analyzers/demos/run.js';
+
 export {
   RULES,
   buildReport,

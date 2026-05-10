@@ -10,7 +10,8 @@ export type RuleId =
   | 'sdk-breaking'
   | 'sdk-added'
   | 'sdk-signature-changed'
-  | 'doc-snippet-fails';
+  | 'doc-snippet-fails'
+  | 'demo-fails';
 
 export const RULES: Record<RuleId, { description: string; configKey: keyof SeverityRules }> = {
   'abi-breaking': {
@@ -44,6 +45,10 @@ export const RULES: Record<RuleId, { description: string; configKey: keyof Sever
   'doc-snippet-fails': {
     description: 'Documentation code snippet no longer compiles against the current SDK',
     configKey: 'docSnippetFails',
+  },
+  'demo-fails': {
+    description: 'Demo repo install or test command failed against the current SDK',
+    configKey: 'demoFails',
   },
 };
 
