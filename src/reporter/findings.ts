@@ -91,32 +91,39 @@ export function findingsFromSdk(
   baseline: Snapshot,
   head: Snapshot,
 ): Finding[] {
-  const file = head.sdk?.entryPath ?? baseline.sdk?.entryPath;
+  const entryFile = head.sdk?.entryPath ?? baseline.sdk?.entryPath;
   const out: Finding[] = [];
   for (const change of changes) {
+    const exp = head.sdk?.exports[change.name] ?? baseline.sdk?.exports[change.name];
+    const file = exp?.sourceFile ?? entryFile;
+    const line = exp?.line;
     switch (change.kind) {
       case 'export-added':
         push(out, 'sdk-added', 'sdk', config, {
           message: `Export ${change.name} added (${change.export.kind})`,
           file,
+          line,
         });
         break;
       case 'export-removed':
         push(out, 'sdk-breaking', 'sdk', config, {
           message: `Export ${change.name} removed`,
           file,
+          line,
         });
         break;
       case 'kind-changed':
         push(out, 'sdk-breaking', 'sdk', config, {
           message: `Export ${change.name} kind changed: ${change.before.kind} → ${change.after.kind}`,
           file,
+          line,
         });
         break;
       case 'signature-changed':
         push(out, 'sdk-signature-changed', 'sdk', config, {
           message: `Export ${change.name} signature changed`,
           file,
+          line,
           before: change.before.signature,
           after: change.after.signature,
         });

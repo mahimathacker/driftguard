@@ -47,6 +47,8 @@ const SdkExportSchema = z.object({
     'namespace',
   ]),
   signature: z.string(),
+  sourceFile: z.string().optional(),
+  line: z.number().int().nonnegative().optional(),
 }).strict();
 
 const SdkSnapshotSchema = z.object({
