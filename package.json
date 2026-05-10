@@ -69,5 +69,13 @@
     "dist",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/driftguard/driftguard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/driftguard/driftguard/issues"
+  },
+  "homepage": "https://github.com/driftguard/driftguard#readme"
 }

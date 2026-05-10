@@ -1,0 +1,29 @@
+name: DriftGuard baseline refresh
+
+# Run manually when you want to reset the snapshot to the current state.
+# Opens a PR with the regenerated .driftguard/snapshot.json.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: driftguard/driftguard@v0
+        with:
+          mode: snapshot
+
+      - name: Open PR with new snapshot
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: driftguard/refresh-baseline
+          title: 'chore: refresh DriftGuard baseline'
+          body: 'Regenerated `.driftguard/snapshot.json` to capture the current public surface.'
+          commit-message: 'chore: refresh DriftGuard baseline'
+          add-paths: .driftguard/snapshot.json
