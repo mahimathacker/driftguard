@@ -1,180 +1,266 @@
 {
-  "createdAt": "2026-05-10T13:49:00.521Z",
+  "createdAt": "2026-05-10T13:08:16.899Z",
   "driftguardVersion": "0.1.0",
   "sdk": {
-    "entryPath": "/Users/mahimathacker/driftguard/src/index.ts",
+    "entryPath": "src/index.ts",
     "exports": {
       "AbiFragment": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof AbiFragmentSchema>"
+        "line": 89,
+        "signature": "type = z.infer<typeof AbiFragmentSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "AbiParameter": {
         "kind": "typeAlias",
-        "signature": "type = {\n  name: string;\n  type: string;\n  internalType?: string;\n  indexed?: boolean;\n  components?: AbiParameter[];\n}"
+        "line": 15,
+        "signature": "type = {\n  name: string;\n  type: string;\n  internalType?: string;\n  indexed?: boolean;\n  components?: AbiParameter[];\n}",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "ContractChange": {
         "kind": "typeAlias",
-        "signature": "type = | { kind: 'contract-added'; name: string; contract: ContractSnapshot }\n  | { kind: 'contract-removed'; name: string; contract: ContractSnapshot }\n  | { kind: 'contract-modified'; name: string; fragments: FragmentChange[] }"
+        "line": 13,
+        "signature": "type = | { kind: 'contract-added'; name: string; contract: ContractSnapshot }\n  | { kind: 'contract-removed'; name: string; contract: ContractSnapshot }\n  | { kind: 'contract-modified'; name: string; fragments: FragmentChange[] }",
+        "sourceFile": "src/analyzers/solidity/diff.ts"
       },
       "ContractSnapshot": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof ContractSnapshotSchema>"
+        "line": 84,
+        "signature": "type = z.infer<typeof ContractSnapshotSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "DemoResult": {
         "kind": "typeAlias",
-        "signature": "type = {\n  name: string;\n  command: string;\n  passed: boolean;\n  exitCode: number;\n  durationMs: number;\n  output: string;\n}"
+        "line": 10,
+        "signature": "type = {\n  name: string;\n  command: string;\n  passed: boolean;\n  exitCode: number;\n  durationMs: number;\n  output: string;\n}",
+        "sourceFile": "src/analyzers/demos/run.ts"
       },
       "DocChange": {
         "kind": "typeAlias",
-        "signature": "type = | { kind: 'doc-added'; file: string }\n  | { kind: 'doc-removed'; file: string }\n  | { kind: 'snippet-broken'; file: string; snippet: DocSnippet }\n  | { kind: 'snippet-fixed'; file: string; snippet: DocSnippet }\n  | { kind: 'snippet-removed'; file: string; snippet: DocSnippet }\n  | { kind: 'snippet-added-broken'; file: string; snippet: DocSnippet }"
+        "line": 3,
+        "signature": "type = | { kind: 'doc-added'; file: string }\n  | { kind: 'doc-removed'; file: string }\n  | { kind: 'snippet-broken'; file: string; snippet: DocSnippet }\n  | { kind: 'snippet-fixed'; file: string; snippet: DocSnippet }\n  | { kind: 'snippet-removed'; file: string; snippet: DocSnippet }\n  | { kind: 'snippet-added-broken'; file: string; snippet: DocSnippet }",
+        "sourceFile": "src/analyzers/docs/diff.ts"
       },
       "DocFileSnapshot": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof DocFileSnapshotSchema>"
+        "line": 87,
+        "signature": "type = z.infer<typeof DocFileSnapshotSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "DocSnippet": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof DocSnippetSchema>"
+        "line": 88,
+        "signature": "type = z.infer<typeof DocSnippetSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "DriftGuardConfig": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof DriftGuardConfigSchema>"
+        "line": 86,
+        "signature": "type = z.infer<typeof DriftGuardConfigSchema>",
+        "sourceFile": "src/config/schema.ts"
       },
       "DriftGuardConfigInput": {
         "kind": "typeAlias",
-        "signature": "type = z.input<typeof DriftGuardConfigSchema>"
+        "line": 87,
+        "signature": "type = z.input<typeof DriftGuardConfigSchema>",
+        "sourceFile": "src/config/schema.ts"
       },
       "DriftGuardConfigSchema": {
         "kind": "variable",
-        "signature": "z.object({\n  contracts: ContractsConfig.optional(),\n  sdk: SdkConfig.optional(),\n  docs: DocsConfig.optional(),\n  demos: DemosConfig.prefault({}),\n  severity: SeverityRules.prefault({}),\n  snapshot: SnapshotConfig.prefault({}),\n  report: ReportConfig.prefault({}),\n}).strict().refine(\n  (c) => c.contracts || c.sdk || c.docs,\n  { message: 'At least one of `contracts`, `sdk`, or `docs` must be configured.' },\n)"
+        "line": 73,
+        "signature": "z.ZodObject<{ contracts: z.ZodOptional<z.ZodObject<{ paths: z.ZodArray<z.ZodString>; toolchain: z.ZodDefault<z.ZodEnum<{ foundry: \"foundry\"; hardhat: \"hardhat\"; solc: \"solc\"; auto: \"auto\"; }>>; ignore: z.ZodDefault<z.ZodArray<z.ZodString>>; }, z.core.$strict>>; sdk: z.ZodOptional<z.ZodObject<{ entry: z.ZodString; publicApi: z.ZodDefault<z.ZodEnum<{ \"package-exports\": \"package-exports\"; \"all-exports\": \"all-exports\"; }>>; tsconfig: z.ZodOptional<z.ZodString>; ignore: z.ZodDefault<z.ZodArray<z.ZodString>>; }, z.core.$strict>>; docs: z.ZodOptional<z.ZodObject<{ paths: z.ZodArray<z.ZodString>; snippetLanguages: z.ZodDefault<z.ZodArray<z.ZodEnum<{ ts: \"ts\"; tsx: \"tsx\"; js: \"js\"; jsx: \"jsx\"; solidity: \"solidity\"; }>>>; ignoreTag: z.ZodDefault<z.ZodString>; ignore: z.ZodDefault<z.ZodArray<z.ZodString>>; }, z.core.$strict>>; demos: z.ZodPrefault<z.ZodObject<{ enabled: z.ZodDefault<z.ZodBoolean>; docker: z.ZodDefault<z.ZodBoolean>; repos: z.ZodDefault<z.ZodArray<z.ZodObject<{ name: z.ZodString; path: z.ZodString; command: z.ZodOptional<z.ZodString>; install: z.ZodOptional<z.ZodString>; packageManager: z.ZodDefault<z.ZodEnum<{ auto: \"auto\"; npm: \"npm\"; pnpm: \"pnpm\"; yarn: \"yarn\"; bun: \"bun\"; }>>; timeoutMs: z.ZodDefault<z.ZodNumber>; env: z.ZodDefault<z.ZodRecord<z.ZodString, z.ZodString>>; }, z.core.$strict>>>; }, z.core.$strict>>; severity: z.ZodPrefault<z.ZodObject<{ abiBreaking: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; abiAdded: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; abiMutabilityRelaxed: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; abiMutabilityTightened: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; solidityAstBreaking: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; sdkBreaking: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; sdkAdded: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; sdkSignatureChanged: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; docSnippetFails: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; docSnippetReferencesRemoved: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; demoFails: z.ZodDefault<z.ZodEnum<{ error: \"error\"; warning: \"warning\"; off: \"off\"; }>>; }, z.core.$strict>>; snapshot: z.ZodPrefault<z.ZodObject<{ path: z.ZodDefault<z.ZodString>; mode: z.ZodDefault<z.ZodEnum<{ snapshot: \"snapshot\"; \"base-branch\": \"base-branch\"; }>>; baseBranch: z.ZodDefault<z.ZodString>; }, z.core.$strict>>; report: z.ZodPrefault<z.ZodObject<{ formats: z.ZodDefault<z.ZodArray<z.ZodEnum<{ console: \"console\"; markdown: \"markdown\"; sarif: \"sarif\"; json: \"json\"; }>>>; sarifPath: z.ZodDefault<z.ZodString>; markdownPath: z.ZodDefault<z.ZodString>; jsonPath: z.ZodDefault<z.ZodString>; }, z.core.$strict>>; }, z.core.$strict>",
+        "sourceFile": "src/config/schema.ts"
       },
       "Finding": {
         "kind": "typeAlias",
-        "signature": "type = {\n  ruleId: RuleId;\n  severity: 'error' | 'warning';\n  layer: Layer;\n  message: string;\n  file?: string;\n  line?: number;\n  before?: string;\n  after?: string;\n}"
+        "line": 11,
+        "signature": "type = {\n  ruleId: RuleId;\n  severity: 'error' | 'warning';\n  layer: Layer;\n  message: string;\n  file?: string;\n  line?: number;\n  before?: string;\n  after?: string;\n}",
+        "sourceFile": "src/reporter/findings.ts"
       },
       "FragmentChange": {
         "kind": "typeAlias",
-        "signature": "type = | { kind: 'fragment-added'; key: string; fragment: AbiFragment }\n  | { kind: 'fragment-removed'; key: string; fragment: AbiFragment }\n  | { kind: 'mutability-tightened'; key: string; before: Mutability; after: Mutability }\n  | { kind: 'mutability-relaxed'; key: string; before: Mutability; after: Mutability }\n  | { kind: 'outputs-changed'; key: string; before: AbiParameter[]; after: AbiParameter[] }"
+        "line": 6,
+        "signature": "type = | { kind: 'fragment-added'; key: string; fragment: AbiFragment }\n  | { kind: 'fragment-removed'; key: string; fragment: AbiFragment }\n  | { kind: 'mutability-tightened'; key: string; before: Mutability; after: Mutability }\n  | { kind: 'mutability-relaxed'; key: string; before: Mutability; after: Mutability }\n  | { kind: 'outputs-changed'; key: string; before: AbiParameter[]; after: AbiParameter[] }",
+        "sourceFile": "src/analyzers/solidity/diff.ts"
       },
       "Layer": {
         "kind": "typeAlias",
-        "signature": "type = 'contracts' | 'sdk' | 'docs' | 'demos'"
+        "line": 9,
+        "signature": "type = 'contracts' | 'sdk' | 'docs' | 'demos'",
+        "sourceFile": "src/reporter/findings.ts"
       },
       "RULES": {
         "kind": "variable",
-        "signature": "Record<RuleId, { description: string; configKey: keyof SeverityRules }>"
+        "line": 16,
+        "signature": "Record<RuleId, { description: string; configKey: keyof SeverityRules }>",
+        "sourceFile": "src/reporter/rules.ts"
       },
       "Report": {
         "kind": "typeAlias",
-        "signature": "type = {\n  findings: Finding[];\n  errorCount: number;\n  warningCount: number;\n  exitCode: 0 | 1;\n}"
+        "line": 13,
+        "signature": "type = {\n  findings: Finding[];\n  errorCount: number;\n  warningCount: number;\n  exitCode: 0 | 1;\n}",
+        "sourceFile": "src/reporter/report.ts"
       },
       "RuleId": {
         "kind": "typeAlias",
-        "signature": "type = | 'abi-breaking'\n  | 'abi-added'\n  | 'abi-mutability-tightened'\n  | 'abi-mutability-relaxed'\n  | 'sdk-breaking'\n  | 'sdk-added'\n  | 'sdk-signature-changed'\n  | 'doc-snippet-fails'\n  | 'demo-fails'"
+        "line": 5,
+        "signature": "type = | 'abi-breaking'\n  | 'abi-added'\n  | 'abi-mutability-tightened'\n  | 'abi-mutability-relaxed'\n  | 'sdk-breaking'\n  | 'sdk-added'\n  | 'sdk-signature-changed'\n  | 'doc-snippet-fails'\n  | 'demo-fails'",
+        "sourceFile": "src/reporter/rules.ts"
       },
       "SNAPSHOT_VERSION": {
         "kind": "variable",
-        "signature": "1 as const"
+        "line": 3,
+        "signature": "1",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "SdkChange": {
         "kind": "typeAlias",
-        "signature": "type = | { kind: 'export-added'; name: string; export: SdkExport }\n  | { kind: 'export-removed'; name: string; export: SdkExport }\n  | { kind: 'kind-changed'; name: string; before: SdkExport; after: SdkExport }\n  | { kind: 'signature-changed'; name: string; before: SdkExport; after: SdkExport }"
+        "line": 3,
+        "signature": "type = | { kind: 'export-added'; name: string; export: SdkExport }\n  | { kind: 'export-removed'; name: string; export: SdkExport }\n  | { kind: 'kind-changed'; name: string; before: SdkExport; after: SdkExport }\n  | { kind: 'signature-changed'; name: string; before: SdkExport; after: SdkExport }",
+        "sourceFile": "src/analyzers/typescript/diff.ts"
       },
       "SdkExport": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof SdkExportSchema>"
+        "line": 86,
+        "signature": "type = z.infer<typeof SdkExportSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "SdkSnapshot": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof SdkSnapshotSchema>"
+        "line": 85,
+        "signature": "type = z.infer<typeof SdkSnapshotSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "Severity": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof Severity>"
+        "line": 4,
+        "signature": "type = z.infer<typeof Severity>",
+        "sourceFile": "src/config/schema.ts"
       },
       "Snapshot": {
         "kind": "typeAlias",
-        "signature": "type = z.infer<typeof SnapshotSchema>"
+        "line": 83,
+        "signature": "type = z.infer<typeof SnapshotSchema>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "SnapshotNotFoundError": {
         "kind": "class",
-        "signature": "class {\n  constructor(path: string);\n}"
+        "line": 6,
+        "signature": "class {\n  constructor(path: string);\n}",
+        "sourceFile": "src/snapshot/io.ts"
       },
       "SnapshotParseError": {
         "kind": "class",
-        "signature": "class {\n  constructor(path: string, cause: unknown);\n}"
+        "line": 25,
+        "signature": "class {\n  constructor(path: string, cause: unknown);\n}",
+        "sourceFile": "src/snapshot/io.ts"
       },
       "SnapshotSchema": {
         "kind": "variable",
-        "signature": "z.object({\n  version: z.literal(SNAPSHOT_VERSION),\n  createdAt: z.iso.datetime(),\n  driftguardVersion: z.string(),\n  contracts: z.record(z.string(), ContractSnapshotSchema).optional(),\n  sdk: SdkSnapshotSchema.optional(),\n  docs: z.array(DocFileSnapshotSchema).optional(),\n}).strict()"
+        "line": 74,
+        "signature": "z.ZodObject<{ version: z.ZodLiteral<1>; createdAt: z.ZodISODateTime; driftguardVersion: z.ZodString; contracts: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodObject<{ name: z.ZodString; sourcePath: z.ZodString; compilerVersion: z.ZodOptional<z.ZodString>; abi: z.ZodArray<z.ZodObject<{ type: z.ZodEnum<{ function: \"function\"; error: \"error\"; event: \"event\"; constructor: \"constructor\"; fallback: \"fallback\"; receive: \"receive\"; }>; name: z.ZodOptional<z.ZodString>; inputs: z.ZodDefault<z.ZodArray<z.ZodType<AbiParameter, unknown, z.core.$ZodTypeInternals<AbiParameter, unknown>>>>; outputs: z.ZodOptional<z.ZodArray<z.ZodType<AbiParameter, unknown, z.core.$ZodTypeInternals<AbiParameter, unknown>>>>; stateMutability: z.ZodOptional<z.ZodEnum<{ pure: \"pure\"; view: \"view\"; nonpayable: \"nonpayable\"; payable: \"payable\"; }>>; anonymous: z.ZodOptional<z.ZodBoolean>; }, z.core.$strict>>; }, z.core.$strict>>>; sdk: z.ZodOptional<z.ZodObject<{ packageName: z.ZodString; packageVersion: z.ZodOptional<z.ZodString>; entryPath: z.ZodString; exports: z.ZodRecord<z.ZodString, z.ZodObject<{ kind: z.ZodEnum<{ function: \"function\"; enum: \"enum\"; class: \"class\"; interface: \"interface\"; typeAlias: \"typeAlias\"; variable: \"variable\"; namespace: \"namespace\"; }>; signature: z.ZodString; }, z.core.$strict>>; }, z.core.$strict>>; docs: z.ZodOptional<z.ZodArray<z.ZodObject<{ path: z.ZodString; contentHash: z.ZodString; snippets: z.ZodArray<z.ZodObject<{ id: z.ZodString; line: z.ZodNumber; language: z.ZodString; source: z.ZodString; compiles: z.ZodBoolean; error: z.ZodOptional<z.ZodString>; }, z.core.$strict>>; }, z.core.$strict>>>; }, z.core.$strict>",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "SnapshotVersionError": {
         "kind": "class",
-        "signature": "class {\n  constructor(path: string, found: number);\n}"
+        "line": 15,
+        "signature": "class {\n  constructor(path: string, found: number);\n}",
+        "sourceFile": "src/snapshot/io.ts"
       },
       "analyzeContracts": {
         "kind": "function",
-        "signature": "(config: ContractsConfig, cwd?: string): Promise<Record<string, ContractSnapshot>>"
+        "line": 12,
+        "signature": "(config: ContractsConfig, cwd?: string): Promise<Record<string, ContractSnapshot>>",
+        "sourceFile": "src/analyzers/solidity/index.ts"
       },
       "analyzeDocs": {
         "kind": "function",
-        "signature": "(config: DocsConfig, context: DocsAnalysisContext, cwd?: string): Promise<DocFileSnapshot[]>"
+        "line": 20,
+        "signature": "(config: DocsConfig, context: DocsAnalysisContext, cwd?: string): Promise<DocFileSnapshot[]>",
+        "sourceFile": "src/analyzers/docs/index.ts"
       },
       "analyzeSdk": {
         "kind": "function",
-        "signature": "(config: SdkConfig, cwd?: string): Promise<SdkSnapshot>"
+        "line": 8,
+        "signature": "(config: SdkConfig, cwd?: string): Promise<SdkSnapshot>",
+        "sourceFile": "src/analyzers/typescript/index.ts"
       },
       "buildReport": {
         "kind": "function",
-        "signature": "(baseline: Snapshot, head: Snapshot, config: DriftGuardConfig): Report"
+        "line": 20,
+        "signature": "(baseline: Snapshot, head: Snapshot, config: DriftGuardConfig): Report",
+        "sourceFile": "src/reporter/report.ts"
       },
       "createEmptySnapshot": {
         "kind": "function",
-        "signature": "(driftguardVersion: string): Snapshot"
+        "line": 91,
+        "signature": "(driftguardVersion: string): Snapshot",
+        "sourceFile": "src/snapshot/schema.ts"
       },
       "defineConfig": {
         "kind": "function",
-        "signature": "(config: DriftGuardConfigInput): DriftGuardConfigInput"
+        "line": 89,
+        "signature": "(config: DriftGuardConfigInput): DriftGuardConfigInput",
+        "sourceFile": "src/config/schema.ts"
       },
       "diffContracts": {
         "kind": "function",
-        "signature": "(baseline: Record<string, ContractSnapshot>, head: Record<string, ContractSnapshot>): ContractChange[]"
+        "line": 18,
+        "signature": "(baseline: Record<string, ContractSnapshot>, head: Record<string, ContractSnapshot>): ContractChange[]",
+        "sourceFile": "src/analyzers/solidity/diff.ts"
       },
       "diffDocs": {
         "kind": "function",
-        "signature": "(baseline: DocFileSnapshot[], head: DocFileSnapshot[]): DocChange[]"
+        "line": 11,
+        "signature": "(baseline: DocFileSnapshot[], head: DocFileSnapshot[]): DocChange[]",
+        "sourceFile": "src/analyzers/docs/diff.ts"
       },
       "diffSdk": {
         "kind": "function",
-        "signature": "(baseline: SdkSnapshot, head: SdkSnapshot): SdkChange[]"
+        "line": 9,
+        "signature": "(baseline: SdkSnapshot, head: SdkSnapshot): SdkChange[]",
+        "sourceFile": "src/analyzers/typescript/diff.ts"
       },
       "readSnapshot": {
         "kind": "function",
-        "signature": "(path: string): Promise<Snapshot>"
+        "line": 33,
+        "signature": "(path: string): Promise<Snapshot>",
+        "sourceFile": "src/snapshot/io.ts"
       },
       "renderConsole": {
         "kind": "function",
-        "signature": "(report: Report): string"
+        "line": 5,
+        "signature": "(report: Report): string",
+        "sourceFile": "src/reporter/console.ts"
       },
       "renderMarkdown": {
         "kind": "function",
-        "signature": "(report: Report): string"
+        "line": 11,
+        "signature": "(report: Report): string",
+        "sourceFile": "src/reporter/markdown.ts"
       },
       "renderSarif": {
         "kind": "function",
-        "signature": "(report: Report, toolVersion: string): string"
+        "line": 30,
+        "signature": "(report: Report, toolVersion: string): string",
+        "sourceFile": "src/reporter/sarif.ts"
       },
       "runDemos": {
         "kind": "function",
-        "signature": "(config: DemosConfig, cwd: string): Promise<DemoResult[]>"
+        "line": 21,
+        "signature": "(config: DemosConfig, cwd: string): Promise<DemoResult[]>",
+        "sourceFile": "src/analyzers/demos/run.ts"
       },
       "snapshotExists": {
         "kind": "function",
-        "signature": "(path: string): Promise<boolean>"
+        "line": 77,
+        "signature": "(path: string): Promise<boolean>",
+        "sourceFile": "src/snapshot/io.ts"
       },
       "writeSnapshot": {
         "kind": "function",
-        "signature": "(path: string, snapshot: Snapshot): Promise<void>"
+        "line": 68,
+        "signature": "(path: string, snapshot: Snapshot): Promise<void>",
+        "sourceFile": "src/snapshot/io.ts"
       }
     },
     "packageName": ""
