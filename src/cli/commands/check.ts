@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { runDemos } from '../../analyzers/demos/run.js';
 import type { DriftGuardConfig } from '../../config/schema.js';
 import { findingsFromDemos } from '../../reporter/findings.js';
@@ -27,6 +27,11 @@ export async function runCheck(
   const baseline = await readSnapshot(baselinePath);
   const head = await analyze(cwd, config);
   const report = buildReport(baseline, head, config);
+
+  // GitHub annotations require repo-relative paths; SARIF spec wants the same.
+  for (const f of report.findings) {
+    if (f.file && isAbsolute(f.file)) f.file = relative(cwd, f.file);
+  }
 
   if (config.demos.enabled) {
     const demoResults = await runDemos(config.demos, cwd);

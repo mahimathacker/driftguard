@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
 import type { SdkExport } from '../../snapshot/schema.js';
 import { serializeExport } from './serialize.js';
@@ -33,20 +33,29 @@ export async function loadSdk(
   return {
     packageName,
     packageVersion,
-    entryPath: resolvedEntry,
-    exports: extractExports(source),
+    entryPath: toRelative(resolvedEntry, cwd),
+    exports: extractExports(source, cwd),
   };
 }
 
-function extractExports(source: SourceFile): Record<string, SdkExport> {
+function extractExports(source: SourceFile, cwd: string): Record<string, SdkExport> {
   const exports: Record<string, SdkExport> = {};
   for (const [name, declarations] of source.getExportedDeclarations()) {
     const decl = declarations[0];
     if (!decl) continue;
     const serialized = serializeExport(decl);
-    if (serialized) exports[name] = serialized;
+    if (!serialized) continue;
+    exports[name] = {
+      ...serialized,
+      sourceFile: toRelative(decl.getSourceFile().getFilePath(), cwd),
+      line: decl.getStartLineNumber(),
+    };
   }
   return exports;
+}
+
+function toRelative(p: string, cwd: string): string {
+  return isAbsolute(p) ? relative(cwd, p) : p;
 }
 
 async function resolveEntry(entry: string, cwd: string): Promise<string> {
