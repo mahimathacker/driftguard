@@ -1,6 +1,6 @@
 {
   "name": "@driftguardjs/cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Cross-layer drift detection for Web3 contracts, SDKs, docs, and demos. CLI + GitHub Action.",
   "main": "./dist/index.js",
   "scripts": {
