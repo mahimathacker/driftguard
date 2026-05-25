@@ -72,12 +72,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/driftguard/driftguard.git"
+    "url": "git+https://github.com/mahimathacker/driftguard.git"
   },
   "bugs": {
-    "url": "https://github.com/driftguard/driftguard/issues"
+    "url": "https://github.com/mahimathacker/driftguard/issues"
   },
-  "homepage": "https://github.com/driftguard/driftguard#readme",
+  "homepage": "https://github.com/mahimathacker/driftguard#readme",
   "publishConfig": {
     "access": "public"
   }
