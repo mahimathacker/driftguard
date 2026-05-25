@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const STARTER = `import { defineConfig } from 'driftguard/config';
+const STARTER = `import { defineConfig } from '@driftguardjs/cli';
 
 export default defineConfig({
   contracts: {

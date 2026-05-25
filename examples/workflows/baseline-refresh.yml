@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: driftguard/driftguard@v0
+      - uses: mahimathacker/driftguard@v0
         with:
           mode: snapshot
 

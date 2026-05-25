@@ -25,7 +25,7 @@ Findings emit as console output, a Markdown PR comment, and SARIF 2.1.0 (for the
 ## Install
 
 ```bash
-npm install --save-dev driftguard
+npm install --save-dev @driftguardjs/cli
 ```
 
 Requires Node 22+.
@@ -54,7 +54,7 @@ Re-run `driftguard snapshot` whenever you intentionally change the public surfac
 A minimal `driftguard.config.ts`:
 
 ```ts
-import { defineConfig } from 'driftguard/config';
+import { defineConfig } from '@driftguardjs/cli';
 
 export default defineConfig({
   sdk: {
@@ -82,7 +82,7 @@ All three layers (`contracts`, `sdk`, `docs`) are independently optional. Each r
 ## GitHub Action
 
 ```yaml
-- uses: driftguard/driftguard@v0
+- uses: mahimathacker/driftguard@v0
   with:
     mode: check
 ```

@@ -43,7 +43,7 @@ runs:
 
     - name: Install DriftGuard
       shell: bash
-      run: npm install -g driftguard@${{ inputs.version }}
+      run: npm install -g @driftguardjs/cli@${{ inputs.version }}
 
     - name: Run DriftGuard
       id: run

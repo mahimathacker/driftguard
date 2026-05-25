@@ -1,5 +1,5 @@
 {
-  "name": "driftguard",
+  "name": "@driftguardjs/cli",
   "version": "0.1.0",
   "description": "Cross-layer drift detection for Web3 contracts, SDKs, docs, and demos. CLI + GitHub Action.",
   "main": "./dist/index.js",
@@ -77,5 +77,8 @@
   "bugs": {
     "url": "https://github.com/driftguard/driftguard/issues"
   },
-  "homepage": "https://github.com/driftguard/driftguard#readme"
+  "homepage": "https://github.com/driftguard/driftguard#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
