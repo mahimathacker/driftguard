@@ -58,8 +58,9 @@ import { defineConfig } from '@driftguardjs/cli';
 
 export default defineConfig({
   sdk: {
-    entry: 'packages/sdk/package.json',
-    tsconfig: 'packages/sdk/tsconfig.json',
+    entry: 'src/index.ts',         // your SDK's main TypeScript file
+    // for monorepos: entry: 'packages/sdk/package.json'
+    tsconfig: 'tsconfig.json',     // optional, improves type resolution
   },
   docs: {
     paths: ['docs/**/*.{md,mdx}', 'README.md'],
