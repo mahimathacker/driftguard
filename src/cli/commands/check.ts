@@ -9,9 +9,8 @@ import { renderMarkdown } from '../../reporter/markdown.js';
 import { renderSarif } from '../../reporter/sarif.js';
 import type { Report } from '../../reporter/report.js';
 import { readSnapshot } from '../../snapshot/io.js';
+import { VERSION as TOOL_VERSION } from '../../version.js';
 import { analyze } from './snapshot.js';
-
-const TOOL_VERSION = '0.1.0';
 
 export type CheckOutput = {
   report: Report;

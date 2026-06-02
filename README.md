@@ -103,7 +103,6 @@ Full example workflow: [examples/workflows/pr-check.yml](examples/workflows/pr-c
 | `driftguard init` | Write a starter `driftguard.config.ts` |
 | `driftguard snapshot` | Capture a baseline of contracts + SDK exports + doc snippets |
 | `driftguard check` | Diff the current state against the baseline; exit 1 on errors |
-| `driftguard report` | Re-render the most recent result in a different format (planned) |
 
 Pass `--config <path>` to point at a non-default config file.
 

@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { analyzeDocs } from '../../analyzers/docs/index.js';
 import { analyzeContracts } from '../../analyzers/solidity/index.js';
 import { analyzeSdk } from '../../analyzers/typescript/index.js';
@@ -8,8 +8,7 @@ import {
   type Snapshot,
 } from '../../snapshot/schema.js';
 import { writeSnapshot } from '../../snapshot/io.js';
-
-const TOOL_VERSION = '0.1.0';
+import { VERSION as TOOL_VERSION } from '../../version.js';
 
 export type SnapshotResult = {
   path: string;

@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { Project, type SourceFile } from 'ts-morph';
 import type { SdkExport } from '../../snapshot/schema.js';
@@ -79,10 +79,36 @@ async function readPackageMeta(
   cwd: string,
 ): Promise<{ packageName: string; packageVersion?: string }> {
   if (entry.endsWith('package.json')) {
-    const pkg = JSON.parse(await readFile(resolve(cwd, entry), 'utf8')) as PackageJson;
-    return { packageName: pkg.name ?? '', packageVersion: pkg.version };
+    return readPackageJson(resolve(cwd, entry));
   }
-  return { packageName: '' };
+  // Walk up from the entry's directory to the nearest package.json (bounded by cwd).
+  const found = await findNearestPackageJson(resolve(cwd, entry), cwd);
+  return found ? await readPackageJson(found) : { packageName: '' };
+}
+
+async function findNearestPackageJson(start: string, root: string): Promise<string | null> {
+  const rootResolved = resolve(root);
+  let dir = dirname(start);
+  while (true) {
+    const candidate = resolve(dir, 'package.json');
+    try {
+      await access(candidate);
+      return candidate;
+    } catch { /* keep walking */ }
+    if (dir === rootResolved || dir === dirname(dir)) return null;
+    dir = dirname(dir);
+  }
+}
+
+async function readPackageJson(
+  path: string,
+): Promise<{ packageName: string; packageVersion?: string }> {
+  try {
+    const pkg = JSON.parse(await readFile(path, 'utf8')) as PackageJson;
+    return { packageName: pkg.name ?? '', packageVersion: pkg.version };
+  } catch {
+    return { packageName: '' };
+  }
 }
 
 type PackageJson = {

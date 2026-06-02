@@ -38,6 +38,15 @@ describe('analyzeSdk', () => {
     expect(snap.exports.transfer?.signature).toContain('Promise<Receipt>');
   });
 
+  it('populates packageName by walking up from a .ts entry to the nearest package.json', async () => {
+    const snap = await analyzeSdk(
+      { entry: 'src/index.ts', publicApi: 'package-exports', ignore: [] },
+      FIXTURE,
+    );
+    expect(snap.packageName).toBe('@example/sample-sdk');
+    expect(snap.packageVersion).toBe('1.0.0');
+  });
+
   it('strips private members from class signatures', async () => {
     const snap = await analyzeSdk(
       { entry: 'src/index.ts', publicApi: 'package-exports', ignore: [] },

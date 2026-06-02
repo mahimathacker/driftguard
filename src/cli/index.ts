@@ -12,8 +12,7 @@ import {
   isGitHubActions,
   setOutput,
 } from './github-output.js';
-
-const VERSION = '0.1.0';
+import { VERSION } from '../version.js';
 
 class InitCommand extends Command {
   static override paths = [['init']];
@@ -29,6 +28,12 @@ class InitCommand extends Command {
     const result = await runInit(process.cwd(), this.force);
     if (result.created) {
       this.context.stdout.write(pc.green(`✓ wrote ${result.path}\n`));
+      const enabled = ['sdk'];
+      if (result.detected.contracts) enabled.push('contracts');
+      if (result.detected.docs) enabled.push('docs');
+      this.context.stdout.write(
+        pc.dim(`  enabled layers: ${enabled.join(', ')}\n`),
+      );
       return 0;
     }
     this.context.stderr.write(
@@ -99,24 +104,6 @@ class CheckCommand extends Command {
   }
 }
 
-class ReportCommand extends Command {
-  static override paths = [['report']];
-  static override usage = Command.Usage({
-    description: 'Re-render the most recent drift result in a different format.',
-  });
-
-  format = Option.String('--format', 'markdown', {
-    description: 'Output format: markdown, sarif, or json.',
-  });
-
-  async execute(): Promise<number> {
-    this.context.stderr.write(
-      pc.yellow('driftguard report is not implemented yet — use `driftguard check` for now.\n'),
-    );
-    return 1;
-  }
-}
-
 async function withConfig(
   context: { stderr: NodeJS.WritableStream },
   configPath: string | undefined,
@@ -157,6 +144,5 @@ cli.register(Builtins.VersionCommand);
 cli.register(InitCommand);
 cli.register(SnapshotCommand);
 cli.register(CheckCommand);
-cli.register(ReportCommand);
 
 void cli.runExit(process.argv.slice(2));
