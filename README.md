@@ -12,8 +12,8 @@
 
 ```
 contracts ─┐
-SDK       ─┼─▶ DriftGuard ─▶ ✓ no drift     PR passes
-docs      ─┤                ✗ drift found   PR fails with file:line annotations
+SDK       ─┼─▶ DriftGuard ─▶ ✓ clean    PR passes
+docs      ─┤                ✗ drift    PR fails at the broken line
 demos     ─┘
 ```
 
@@ -164,8 +164,6 @@ PRs and issues are welcome.
   npm test
   npm run build:cli
   ```
-
-Built as part of [DevRel Uni Cohort 7](https://www.devrel.university).
 
 ## License
 
